@@ -5,20 +5,28 @@ from models.city import City
 
 
 class test_City(test_basemodel):
-    """ """
+    """
+    this will test the city class
+    """
 
     def __init__(self, *args, **kwargs):
-        """ """
+        """
+        init the test class
+        """
         super().__init__(*args, **kwargs)
         self.name = "City"
         self.value = City
 
     def test_state_id(self):
-        """ """
+        """ testing state_id type """
         new = self.value()
-        self.assertEqual(type(new.state_id), str)
+        self.assertEqual(type(new.state_id), str if
+                         os.getenv('HBNB_TYPE_STORAGE') != 'db' else
+                         type(None))
 
     def test_name(self):
-        """ """
+        """ testing name type"""
         new = self.value()
-        self.assertEqual(type(new.name), str)
+        self.assertEqual(type(new.name), str if
+                         os.getenv('HBNB_TYPE_STORAGE') != 'db' else
+                         type(None))
