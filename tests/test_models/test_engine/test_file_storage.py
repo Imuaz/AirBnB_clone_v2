@@ -3,8 +3,7 @@
 import os
 import json
 import pep8
-import unittest
-from datetime import datetime
+import unittestfrom datetime import datetime
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -19,7 +18,7 @@ class TestFileStorage(unittest.TestCase):
     """Unittests for testing the FileStorage class."""
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls)
         """FileStorage testing setup.
         Temporarily renames any existing file.json.
         Resets FileStorage objects dictionary.
