@@ -51,38 +51,27 @@ class HBNBCommand(cmd.Cmd):
             pline = line[:]  # parsed line
 
             # isolate <class name>
-            _cls = pline[:pline.find('.')]
+            _cls, rest = pline.split('.', 1)
 
             # isolate and validate <command>
-            _cmd = pline[pline.find('.') + 1:pline.find('(')]
-            if _cmd not in HBNBCommand.dot_cmds:
+            _cmd, rest = rest.split('(', 1)
+            if _cmd.strip() not in HBNBCommand.dot_cmds:
                 raise Exception
 
             # if parantheses contain arguments, parse them
-            pline = pline[pline.find('(') + 1:pline.find(')')]
-            if pline:
-                # partition args: (<id>, [<delim>], [<*args>])
-                pline = pline.partition(', ')  # pline convert to tuple
-
-                # isolate _id, stripping quotes
-                _id = pline.split('\"')
-                # possible bug here:
-                # empty quotes register as empty _id when replaced
-
-                # if arguments exist beyond _id
-                if len(pline) > 1:
-                    # check for *args or **kwargs
-                    if pline[-1].startswith('{') and pline[-1].endswith('}'):
-                        _args = pline[-1]
-                    else:
-                        _args = pline.replace(',', '')
-                        # _args = _args.replace('\"', '')
-            line = ' '.join([_cmd, _cls, _id, _args])
+            if ')' in rest:
+                _args, _id = rest.split(')', 1)
+                _id = _id.strip().strip(',')
+                _args = _args.strip('(').strip()
+                if not _args:
+                    _args = ''
 
         except Exception as mess:
             pass
-        finally:
-            return line
+
+        line = ' '.join([_cmd, _cls, _id, _args])
+
+        return line
 
     def postcmd(self, stop, line):
         """Prints if isatty is false"""
