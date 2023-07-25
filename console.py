@@ -65,19 +65,15 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline.partition(', ')  # pline convert to tuple
 
                 # isolate _id, stripping quotes
-                _id = pline[0].replace('\"', '')
+                _id = pline.split('\"')
                 # possible bug here:
                 # empty quotes register as empty _id when replaced
 
                 # if arguments exist beyond _id
-                pline = pline[2].strip()  # pline is now str
-                if pline:
+                if len(pline) > 1:
                     # check for *args or **kwargs
-                    if (pline[0] == '{' and pline[-1] ==
-                        '}' and type(eval(pline)) is dict):
-                        if (pline[0] == '{' and pline[-1] == '}'\
-                        and type(eval(pline)) is dict):
-                            _args = pline
+                    if pline[-1].startswith('{') and pline[-1].endswith('}'):
+                        _args = pline[-1]
                     else:
                         _args = pline.replace(',', '')
                         # _args = _args.replace('\"', '')
